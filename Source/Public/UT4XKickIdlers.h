@@ -3,6 +3,8 @@
 #include "Core.h"
 #include "UnrealTournament.h"
 #include "UTMutator.h"
+#include "UTWorldSettings.h"
+#include "UTGameEngine.h"
 
 #include "UT4XKickIdlers.generated.h"
 
@@ -43,6 +45,11 @@ class AUT4XKickIdlers : public AUTMutator
 	* Override init mutator function to start checking idling players
 	*/
 	void Init_Implementation(const FString& Options) override;
+
+	/*
+	* Adds some custom "mutate xxx" command
+	*/
+	void Mutate_Implementation(const FString& MutateString, APlayerController* Sender) override;
 
 
 private:

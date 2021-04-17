@@ -9,11 +9,11 @@ Automatically kicks idlers for online Unreal Tournament games.
 
 UT4X Kick Idlers mutator is a server side mutator that will automatically kick idle players.
 
-The vanilla auto kick feature in UT4 only kick during map change.
+The vanilla auto-kick feature in UT4 only kick during map change.
 
 This mutator allows players to be kicked during match and have some extra settings to tune it.
 
-Since it's a server side mutator, client do not need to download the mutator and no redirect is needed.
+Since it's a server side mutator, player does not need to download the mutator and no redirect is needed.
 
 ### Author
 
@@ -85,3 +85,15 @@ KickIdlersInPrivateGamesEnabled=False
 | KickIdlersInPrivateGamesEnabled | False         | Activate kick idlers if it's a private game (passworded or lan game) |
 
 These values can modified modifying Mod.ini file as seen before.
+
+## Commands
+
+As a logged admin (command: "rconauth mypassword"), you can enable or disabled mutator:
+
+Enable KickIdlers:
+
+`mutate enablekickidlers`
+
+Disable KickIdlers:
+
+`mutate disablekickidlers`

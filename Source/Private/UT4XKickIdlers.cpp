@@ -41,6 +41,43 @@ void AUT4XKickIdlers::Init_Implementation(const FString& Options)
 	Super::Init_Implementation(Options);
 }
 
+void AUT4XKickIdlers::Mutate_Implementation(const FString& MutateString, APlayerController* Sender)
+{
+
+	TArray<FString> Tokens;
+	AUTPlayerController* UTSender = Cast<AUTPlayerController>(Sender);
+
+
+	if (UTSender) {
+		AUTPlayerState* UTPS = Cast<AUTPlayerState>(Sender->PlayerState);
+
+		// allows as an admin to enable / disable auto kick mutator
+		// note if there are multiple instance within hub, command will have to be executed within each instance (to disable)
+		if (UTPS && UTPS->bIsRconAdmin) {
+			if (MutateString == "disablekickidlers") {
+				KickIdlersEnabled = false;
+				SaveConfig();
+
+				// stop auto kick idler timer if any active
+				if (GetWorldTimerManager().IsTimerActive(CheckPlayerIdlingTimerHandle)) {
+					GetWorldTimerManager().ClearTimer(CheckPlayerIdlingTimerHandle);
+				}
+
+				UTSender->ClientSay(UTPS, TEXT("KickIdlers has been disabled."), ChatDestinations::System);
+			}
+			else if (MutateString == "enablekickidlers") {
+				KickIdlersEnabled = true;
+				SaveConfig();
+
+				// don't auto add timer, will be added or not at next round
+				UTSender->ClientSay(UTPS, TEXT("KickIdlers has been enabled."), ChatDestinations::System);
+			}
+		}
+	}
+
+	Super::Mutate_Implementation(MutateString, Sender);
+}
+
 
 // executed each 5 seconds, must be quick !
 void AUT4XKickIdlers::CheckPlayersIdling() {
