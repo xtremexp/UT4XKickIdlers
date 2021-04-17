@@ -99,7 +99,7 @@ void AUT4XKickIdlers::CheckPlayersIdling() {
 				if (UTPS) {
 
 					// do not kick bot, spectators and out of lives players
-					bool IsPlayerIdling = UTPS && !UTPS->bIsABot && !UTPS->bOnlySpectator && !UTPS->bOutOfLives && !UTPS->bIsInactive;
+					bool IsPlayerIdling = UTPS && !UTPS->bIsABot && !UTPS->bOnlySpectator && !UTPS->bIsSpectator && !UTPS->bOutOfLives && !UTPS->bIsInactive;
 
 					if (!IsPlayerIdling) {
 						continue;
