@@ -24,7 +24,9 @@ void AUT4XKickIdlers::Init_Implementation(const FString& Options)
 		bool checkIdlers = KickIdlersEnabled;
 
 		// private games settings
-		checkIdlers = (GM->bIsLANGame || !GM->ServerPassword.IsEmpty()) && KickIdlersInPrivateGamesEnabled;
+		if ((GM->bIsLANGame || !GM->ServerPassword.IsEmpty()) && !KickIdlersInPrivateGamesEnabled) {
+			checkIdlers = false;
+		}
 
 		// command line option
 		checkIdlers &= (UGameplayStatics::GetIntOption(Options, TEXT("4XKickIdlersEnabled"), 1) == 1) ? true : false;
