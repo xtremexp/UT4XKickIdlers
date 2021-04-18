@@ -27,7 +27,7 @@ void AUT4XKickIdlers::Init_Implementation(const FString& Options)
 		bool checkIdlers = KickIdlersEnabled;
 
 		// private games settings
-		if ((GM->bIsLANGame || !GM->ServerPassword.IsEmpty()) && !KickIdlersInPrivateGamesEnabled) {
+		if ((GM->bIsLANGame || GM->bPrivateMatch || !GM->ServerPassword.IsEmpty()) && !KickIdlersInPrivateGamesEnabled) {
 			checkIdlers = false;
 		}
 
@@ -85,6 +85,29 @@ void AUT4XKickIdlers::Mutate_Implementation(const FString& MutateString, APlayer
 	Super::Mutate_Implementation(MutateString, Sender);
 }
 
+void AUT4XKickIdlers::ModifyPlayer_Implementation(APawn* Other, bool bIsNewSpawn)
+{
+
+	// some custom gamemodes does not handle match state name change properly
+	// as such once player spawn reset idling time
+	// this will prevent player to be kicked straight after spawning after dying before and spectating for some time
+	// until other players has died (e.g: elimination gametype)
+	if (Other) {
+		AUTPlayerController* PC = Cast<AUTPlayerController>(Other->GetController());
+
+		if (PC) {
+
+			AUTPlayerState* UTPS = Cast<AUTPlayerState>(PC->PlayerState);
+
+			if (UTPS && !UTPS->bIsABot) {
+				UTPS->NotIdle();
+			}
+		}
+	}
+
+	Super::ModifyPlayer_Implementation(Other, bIsNewSpawn);
+}
+
 
 // executed each 5 seconds, must be quick !
 void AUT4XKickIdlers::CheckPlayersIdling() {
@@ -97,16 +120,18 @@ void AUT4XKickIdlers::CheckPlayersIdling() {
 		AUTGameState* UTGameState = GM->UTGameState;
 
 		// no kick for lan games and if there are less than 2 players
-		if (UTGameState && GM->GameSession && !GM->bIsLANGame && GM->GetNumPlayers() >= MinPlayersForKickIdlers)
+		if (UTGameState && GM->GameSession && GM->GetNumPlayers() >= MinPlayersForKickIdlers)
 		{
 			for (int32 i = 0; i < UTGameState->PlayerArray.Num(); i++)
 			{
+
 				AUTPlayerState* UTPS = Cast<AUTPlayerState>(UTGameState->PlayerArray[i]);
 
 				if (UTPS) {
 
-					// do not kick bot, spectators and out of lives players
-					bool IsPlayerIdling = UTPS && !UTPS->bIsABot && !UTPS->bOnlySpectator && !UTPS->bIsSpectator && !UTPS->bOutOfLives && !UTPS->bIsInactive;
+					// do not kick bot, spectators, out of lives players (e.g: blitz) and player who just died
+					// null character means player has just died and is in spectate mode
+					bool IsPlayerIdling = UTPS && !UTPS->bIsABot && !UTPS->bOnlySpectator && !UTPS->bIsSpectator && !UTPS->bOutOfLives && !UTPS->bIsInactive && !UTPS->bIsWarmingUp && UTPS->GetUTCharacter() != nullptr;
 
 					if (!IsPlayerIdling) {
 						continue;

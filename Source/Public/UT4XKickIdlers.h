@@ -52,6 +52,12 @@ class AUT4XKickIdlers : public AUTMutator
 	void Mutate_Implementation(const FString& MutateString, APlayerController* Sender) override;
 
 
+	/*
+	* Called when player has spawned, used to reset LastActiveTime
+	*/
+	void ModifyPlayer_Implementation(APawn* Other, bool bIsNewSpawn);
+
+
 private:
 
 	/*
