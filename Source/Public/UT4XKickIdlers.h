@@ -11,7 +11,7 @@
 DEFINE_LOG_CATEGORY_STATIC(UT4X, Log, All);
 
 
-UCLASS(Config = Mod)
+UCLASS(Config = UT4X)
 class AUT4XKickIdlers : public AUTMutator
 {
 
@@ -20,25 +20,25 @@ class AUT4XKickIdlers : public AUTMutator
 	/*
 	* If true kick idlers is enabled else false
 	*/
-	UPROPERTY(Config = Mod)
+	UPROPERTY(Config = UT4X)
 	bool KickIdlersEnabled = true;
 
 	/*
 	* Whether kick idlers is enabled for private games (passworded, lan, ...)
 	*/
-	UPROPERTY(Config = Mod)
+	UPROPERTY(Config = UT4X)
 	bool KickIdlersInPrivateGamesEnabled = false;
 
 	/*
 	* Max idling duration until player is kicked
 	*/
-	UPROPERTY(Config = Mod)
+	UPROPERTY(Config = UT4X)
 	int MaxIdlingDuration = 90;
 
 	/*
 	* Will only kick if at least >= X (default 2) players in server
 	*/
-	UPROPERTY(Config = Mod)
+	UPROPERTY(Config = UT4X)
 	int MinPlayersForKickIdlers = 2;
 
 	/*
