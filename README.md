@@ -67,7 +67,7 @@ Add this in command line:
 
 Default configuration of this mutator can be changed modifying in <Windows/Linux>Server\UnrealTournament\Saved\Config\<Windows/Linux>Server\UT4X.ini file. (this file is automatically created at first start).
 
-If file is not present you can create it with this content :
+If file is not present you can create it with this content (see /Config/DefaultUT4X.ini file in this plugin folder) :
 
 ```ini
 [/Script/UT4XKickIdlers.UT4XKickIdlers]
