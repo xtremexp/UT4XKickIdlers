@@ -19,6 +19,15 @@ Since it's a server side mutator, player does not need to download the mutator a
 
 Thomas 'WinterIsComing' P.
 
+### Version History
+
+- 1.1 - 18/04/2021 
+  - Fixed elimination gamemode auto-kick while player waiting to respawn
+  - Fixed bad config file. Changed to UT4X.ini
+  - Added admin only command "mutate enablekickidlers" and "mutate disablekickidlers" to enable/disable plugin
+  - Added a few extra logs
+- 1.0 - 17/04/2021 - First version
+
 ### License
 
 See licence file

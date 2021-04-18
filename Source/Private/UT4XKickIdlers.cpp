@@ -7,7 +7,7 @@ AUT4XKickIdlers::AUT4XKickIdlers(const FObjectInitializer& ObjectInitializer)
 	: Super(ObjectInitializer)
 {
 
-	DisplayName = FText::FromString("UT4X KickIdlers 1.0");
+	DisplayName = FText::FromString("UT4X KickIdlers 1.1");
 	Author = FText::FromString("Thomas 'XtremeXp/Winter' P.");
 	Description = FText::FromString("UT4 server mutator for automatically kicking idlers.");
 }
@@ -38,10 +38,10 @@ void AUT4XKickIdlers::Init_Implementation(const FString& Options)
 			// check idling players each 5 seconds
 			GetWorld()->GetTimerManager().SetTimer(CheckPlayerIdlingTimerHandle, this, &AUT4XKickIdlers::CheckPlayersIdling, 5.f, true);
 
-			UE_LOG(UT4X, Log, TEXT("Auto-kick idlers is enabled with MaxIdlingDuration = %is."), MaxIdlingDuration);
+			UE_LOG(UT4X, Log, TEXT("Auto-kick idlers v1.1 is enabled with MaxIdlingDuration = %is and MinPlayersForKickIdlers >= %i."), MaxIdlingDuration, MinPlayersForKickIdlers);
 		}
 		else {
-			UE_LOG(UT4X, Log, TEXT("Auto-kick idlers is disabled for this game (private game or globally disabled)."));
+			UE_LOG(UT4X, Log, TEXT("Auto-kick idlers v1.1 is disabled for this game (private game or globally disabled)."));
 		}
 	}
 
