@@ -19,6 +19,9 @@ void AUT4XKickIdlers::Init_Implementation(const FString& Options)
 	AUTGameMode* GM = Cast<AUTGameMode>(GetWorld()->GetAuthGameMode());
 
 	if (GM) {
+		// auto save config at start so UT4X.ini file will appear in <Linux/Windows>Server/UnrealTournament/Saved/Config/<Linux/Windows>Server
+		// making easier for admins to modify it afterwards
+		SaveConfig();
 
 		// global setting
 		bool checkIdlers = KickIdlersEnabled;
@@ -34,7 +37,11 @@ void AUT4XKickIdlers::Init_Implementation(const FString& Options)
 		if (checkIdlers) {
 			// check idling players each 5 seconds
 			GetWorld()->GetTimerManager().SetTimer(CheckPlayerIdlingTimerHandle, this, &AUT4XKickIdlers::CheckPlayersIdling, 5.f, true);
-			UE_LOG(UT4X, Log, TEXT("Auto-kick idlers is enabled."));
+
+			UE_LOG(UT4X, Log, TEXT("Auto-kick idlers is enabled with MaxIdlingDuration = %is."), MaxIdlingDuration);
+		}
+		else {
+			UE_LOG(UT4X, Log, TEXT("Auto-kick idlers is disabled for this game (private game or globally disabled)."));
 		}
 	}
 

@@ -7,7 +7,7 @@ Automatically kicks idlers for online Unreal Tournament games.
 
 ### Description
 
-UT4X Kick Idlers mutator is a server side mutator that will automatically kick idle players.
+UT4X Kick Idlers mutator is a server side mutator (or plugin) that will automatically kick idle players.
 
 The vanilla auto-kick feature in UT4 only kick during map change.
 
@@ -65,9 +65,9 @@ Add this in command line:
 
 ## Configuration
 
-Default configuration of this mutator can be changed modifying in <Windows/Linux>Server\UnrealTournament\Saved\Config\Mod.ini file.
+Default configuration of this mutator can be changed modifying in <Windows/Linux>Server\UnrealTournament\Saved\Config\<Windows/Linux>Server\UT4X.ini file. (this file is automatically created at first start).
 
-You have to add these lines if they are not present
+If file is not present you can create it with this content :
 
 ```ini
 [/Script/UT4XKickIdlers.UT4XKickIdlers]
@@ -84,11 +84,11 @@ KickIdlersInPrivateGamesEnabled=False
 | MinPlayersForKickIdlers         | 2             | Minimum players                                              |
 | KickIdlersInPrivateGamesEnabled | False         | Activate kick idlers if it's a private game (passworded or lan game) |
 
-These values can modified modifying Mod.ini file as seen before.
+These values can modified modifying UT4X.ini file as seen before.
 
 ## Commands
 
-As a logged admin (command: "rconauth mypassword"), you can enable or disabled mutator:
+As a logged admin (command: "rconauth mypassword"), you can enable or disable mutator:
 
 Enable KickIdlers:
 
@@ -97,3 +97,26 @@ Enable KickIdlers:
 Disable KickIdlers:
 
 `mutate disablekickidlers`
+
+
+
+## Build UT4XKickIdlers
+
+### Requirements
+
+- Windows OS
+- Microsoft Visual Studio 2015 (Community Edition (free) or paid one)
+- Git client (either Git for windows or TortoiseGit)
+
+### Procedure
+
+- clone Unreal Tournament repository from https://github.com/EpicGames/UnrealTournament
+- run "Setup.bat" in root UnrealTournament folder (might take a long time since it downloads at UT4 content (textures, maps, ...))
+- clone UT4XKickIdlers repository to UnrealTournament\UnrealTournament\Plugins folder
+- run "GenerateProjectFiles.bat -2015" in root UnrealTournament folder
+- open "UE4.sln" solution file within Visual Studio 2015
+- Build plugin (first build can quite a long time since it's building UT4 as well)
+  - For Windows select Shipping Server / Win64 / UE4 configuration then "Build -> Build Unreal Tournament" in menu
+  - For Linux select Shipping Server / Linux / UE4 configuration then "Build -> Build Unreal Tournament" in menu
+- Compiled plugin binaries will then be available within UnrealTournament\UnrealTournament\Plugins\UT4XKickIdlers\Binaries folder
+
