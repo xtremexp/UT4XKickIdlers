@@ -58,6 +58,12 @@ class AUT4XKickIdlers : public AUTMutator
 	void ModifyPlayer_Implementation(APawn* Other, bool bIsNewSpawn);
 
 
+	/*
+	* Called when latch state changes, used to remove idle player check at match end
+	*/
+	void NotifyMatchStateChange_Implementation(FName NewState) override;
+
+
 private:
 
 	/*

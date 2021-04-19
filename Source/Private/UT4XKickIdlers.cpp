@@ -66,9 +66,7 @@ void AUT4XKickIdlers::Mutate_Implementation(const FString& MutateString, APlayer
 				SaveConfig();
 
 				// stop auto kick idler timer if any active
-				if (GetWorldTimerManager().IsTimerActive(CheckPlayerIdlingTimerHandle)) {
-					GetWorldTimerManager().ClearTimer(CheckPlayerIdlingTimerHandle);
-				}
+				GetWorldTimerManager().ClearTimer(CheckPlayerIdlingTimerHandle);
 
 				UTSender->ClientSay(UTPS, TEXT("KickIdlers has been disabled."), ChatDestinations::System);
 			}
@@ -106,6 +104,16 @@ void AUT4XKickIdlers::ModifyPlayer_Implementation(APawn* Other, bool bIsNewSpawn
 	}
 
 	Super::ModifyPlayer_Implementation(Other, bIsNewSpawn);
+}
+
+void AUT4XKickIdlers::NotifyMatchStateChange_Implementation(FName NewState)
+{
+	// no need check idling players at match end
+	if (NewState == MatchState::WaitingPostMatch || NewState == MatchState::MapVoteHappening) {
+		GetWorldTimerManager().ClearTimer(CheckPlayerIdlingTimerHandle);
+	}
+
+	Super::NotifyMatchStateChange_Implementation(NewState);
 }
 
 
